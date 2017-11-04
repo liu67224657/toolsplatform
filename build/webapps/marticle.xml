@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="marticle" default="webapps.marticle.package" basedir="../.">
+
+    <!--java compile-->
+    <property name="platform.javac.debug" value="on"/>
+    <property name="platform.javac.nowarn" value="on"/>
+    <property name="platform.javac.optimize" value="off"/>
+    <property name="platform.javac.deprecation" value="off"/>
+    <property name="java.source.encoding" value="utf-8"/>
+
+    <path id="webapps.marticle.path">
+        <pathelement path="${view.webapps.root}/marticle"/>
+    </path>
+    <pathconvert dirsep="/" property="webapps.marticle.root" refid="webapps.marticle.path"/>
+
+    <property name="build.marticle.classes.output" value="${build.classes.root}/webapps/marticle"/>
+
+    <!--marticle src-->
+    <path id="webapps.marticle.path">
+        <pathelement path="${view.webapps.root}/marticle"/>
+    </path>
+    <pathconvert dirsep="/" property="webapps.marticle.root" refid="webapps.marticle.path"/>
+    <property name="webapps.marticle.src.root" value="${webapps.marticle.root}/src"/>
+    <property name="webapps.marticle.WebRoot.root" value="${webapps.marticle.root}/WebRoot"/>
+
+    <!--pageckage path-->
+    <path id="package.marticle.path">
+        <pathelement path="${package.root}/marticle"/>
+    </path>
+    <pathconvert dirsep="/" property="package.marticle.root" refid="package.marticle.path"/>
+
+    <path id="marticle.compiletime.classpath.ref">
+        <pathelement location="${build.framework.output}"/>
+        <pathelement location="${build.adminuser.output}"/>
+        <pathelement location="${build.cmsdb.output}"/>
+        <fileset dir="${view.relatedjars.root}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <property name="marticle.compiletime.classpath" refid="marticle.compiletime.classpath.ref"/>
+
+    <target name="version.marticle" description="Versioned building">
+        <antcall target="marticle.marknextversion"/>
+
+        <loadproperties srcFile="${view.build.root}/marticle.version.file" encoding="utf8"/>
+        <property name="marticle.pversion" value="yes"/>
+
+        <condition property="build.marticle.platform.version" value="${major.number}.${minor.number}.${build.number}">
+            <isset property="marticle.pversion"/>
+        </condition>
+        <property name="build.marticle.platform.version" value="0.0.0.0"/>
+
+        <antcall target="marticle.package"/>
+    </target>
+
+
+    <target name="marticle.marknextversion">
+        <buildnumber file="${view.build.root}/marticle.version.file"/>
+    </target>
+
+    <target name="webapps.marticle.compile" depends="cleate.create.output,adminuser-compile,framework-compile,cmsdb-compile"
+            description="compile the webapp classes">
+        <!-- compile the platform webapp classes -->
+        <javac
+                target="${java.jdk.version}"
+                srcdir="${webapps.marticle.src.root}"
+                destdir="${build.marticle.classes.output}"
+                nowarn="${platform.javac.nowarn}"
+                debug="${platform.javac.debug}"
+                optimize="${platform.javac.optimize}"
+                deprecation="${platform.javac.deprecation}"
+                includeAntRuntime="no"
+                includeJavaRuntime="yes"
+                encoding="${java.source.encoding}">
+
+            <classpath>
+                <pathelement path="${marticle.compiletime.classpath}"/>
+            </classpath>
+            <sourcepath>
+                <pathelement path="${webapps.marticle.src.root}"/>
+            </sourcepath>
+        </javac>
+    </target>
+
+    <target  name="webapps.marticle.package" depends="webapps.marticle.compile"
+             description="compile the webapp classes">
+        <mkdir dir="${package.marticle.root}/WEB-INF/lib"/>
+        <mkdir dir="${package.marticle.root}/WEB-INF/classes"/>
+        <copy todir="${package.marticle.root}">
+            <fileset dir="${webapps.marticle.WebRoot.root}">
+                <include name="**/**"/>
+                <exclude name="**/WEB-INF/classes/**"/>
+            </fileset>
+        </copy>
+
+        <echo message="---------${build.marticle.classes.output}------------" />
+        <echo message="---------${package.marticle.root}/WEB-INF/classes------------" />
+        <copy todir="${package.marticle.root}/WEB-INF/classes">
+            <fileset dir="${build.framework.output}">
+                <include name="**/**"/>
+            </fileset>
+            <fileset dir="${build.marticle.classes.output}">
+                <include name="**/**"/>
+            </fileset>
+            <fileset dir="${build.adminuser.output}">
+                <include name="**/**"/>
+            </fileset>
+            <fileset dir="${build.cmsdb.output}">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+        <copy todir="${package.marticle.root}/WEB-INF/lib">
+            <fileset dir="${relatedjars.root.output}">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+        <copy todir="${package.marticle.root}/WEB-INF/classes" file="${framework.root}/../log4j.properties" />
+    </target>
+
+    <target name="marticle.package" depends="webapps.marticle.package" description="Copy all jar and tar files to package dir">
+        <mkdir dir="${build.package.root}/marticle/${build.marticle.platform.version}"/>
+
+        <echo message="-----copy ${package.marticle.root} to ${build.package.root}/marticle/${build.marticle.platform.version}-----"/>
+        <copy todir="${build.package.root}/marticle/${build.marticle.platform.version}">
+            <fileset dir="${package.marticle.root}">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+
+
+        <condition property="current.version.filename" value="zeroversion">
+            <equals arg1="${build.marticle.platform.version}" arg2="0.0.0.0"></equals>
+        </condition>
+        <condition property="current.version.filename" value="prealphaIIversion">
+            <contains string="${build.marticle.platform.version}" substring="pII"></contains>
+        </condition>
+        <condition property="current.version.filename" value="prealphaversion">
+            <contains string="${build.marticle.platform.version}" substring="p"></contains>
+        </condition>
+        <condition property="current.version.filename" value="stabilityversion">
+            <contains string="${build.marticle.platform.version}" substring="b"></contains>
+        </condition>
+        <property name="current.version.filename" value="mainversion"/>
+
+        <echo file="${build.package.root}/marticle/${current.version.filename}" message="${build.marticle.platform.version}"/>
+
+        <condition property="isTar" value="true">
+            <os family="unix"/>
+        </condition>
+        <antcall target="marticle.tar"/>
+    </target>
+
+    <target name="marticle.tar" description="Creates the marticle.tar for deployment" if="${isTar}">
+        <echo message="-----generator tar-----"/>
+        <tar destfile="${build.package.root}/marticle/${build.marticle.platform.version}.tar" longfile="warn">
+            <tarfileset dir="${build.package.root}/marticle/${build.marticle.platform.version}">
+                <include name="**/*"/>
+            </tarfileset>
+        </tar>
+        <delete dir="${build.package.root}/marticle/${build.marticle.platform.version}">
+        </delete>
+    </target>
+
+</project>
+

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device.width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link rel="icon" href="http://lib.joyme.com/static/img/favicon.ico" type="image/x-icon"/>
+    <link href="/css/syhb4.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('touchstart', function (e) {
+                return false;
+            }, true)
+        }, false)
+    </script>
+    <title>{joyme:article-title/}-着迷网</title>
+</head>
+<body>
+<div class="floatBanner">
+    <div class="box-sizing display">
+        <div class="hb-dw-box">
+            <i class="fl"><img src="/img/syhb4/syhbcon.png" alt="" title="" /></i>
+            <p class="fl">
+                <em>着迷玩霸</em>
+                <span>只要你着迷 陪你玩到底</span>
+            </p>
+        </div>
+        <a href="http://www.joyme.com/appclick/rli4niip" class="hn-dw-btn">免费下载</a>
+    </div>
+</div>
+<div class="popup_box">
+    <img src="/img/syhb4/popup.jpg" alt="">
+</div>
+<div class="mark_box"></div>
+
+<div id="wrapper" style="padding-top: 55px">
+
+    <section id="dragWrap">
+        <div class="img-wrapper" id="img-wrapper">
+            <img src="{joyme:article-clientpic/}">
+        </div>
+        <article class="article-wrapper">
+            <div class="article-box"><span></span></div>
+            <div class="article-title txt-l">
+                <h1 style="padding-top: 0">{joyme:article-title/}</h1>
+                <span class="author">by&nbsp;&nbsp;{joyme:article-publishuser/}</span>
+                <span class="date">{joyme:article-publishtime/}</span>
+            </div>
+            {joyme:article-body/}
+        </article>
+    </section>
+    <section class="re-article">
+        <div class="re-article-main">
+            {joyme:relatednews-syhb4-pictorial/}
+        </div>
+    </section>
+</div>
+
+<!-- 版权 -->
+<div class="copyright">
+    <p>&copy;2011－2015 joyme.com, all rights reserved</p>
+    <p>京ICP备11029291号 京公网安备110108001706号</p>
+</div>
+<script src='/js/jquery-1.9.1.min.js'></script>
+<script src='/js/wapcommon.js'></script>
+<script>
+    //监听动画执行
+    function getAn(){
+        var imgWrapper=document.getElementById('img-wrapper');
+        var oimg=imgWrapper.getElementsByTagName('img')[0];
+        oimg.addEventListener("webkitAnimationEnd", function(){
+            this.className='';
+        }, false);
+    }
+    $(document).ready(function () {
+        getAn();
+        $('.hn-dw-btn').on('touchstart', function (ev) {
+            if (is_weixn()) {
+                $('.mark_box').show();
+                $('.popup_box').show();
+            } else {
+                window.location.href = "http://www.joyme.com/appclick/rli4niip";
+            }
+        });
+        $('.mark_box').on('touchstart', function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            if (is_weixn()) {
+                $('.mark_box').hide();
+                $('.popup_box').hide();
+            }
+        })
+    });
+
+</script>
+<script src="http://html.joyme.com/js/marticleGoogleAnalytics.js" language="javascript"></script>
+<script>
+    (function (G,D,s,c,p) {
+        c={//监测配置
+            UA:"UA-joyme-000001", //客户项目编号,由系统生成
+            NO_FLS:0,
+            WITH_REF:1,
+            URL:'http://webcache.joyme.com/js/iwt-min.js'
+        };
+        G._iwt?G._iwt.track(c,p):(G._iwtTQ=G._iwtTQ || []).push([c,p]),!G._iwtLoading && lo();
+        function lo(t) {
+            G._iwtLoading=1;s=D.createElement("script");s.src=c.URL;
+            t=D.getElementsByTagName("script");t=t[t.length-1];
+            t.parentNode.insertBefore(s,t);
+        }
+    })(this,document);
+</script>
+</body>
+</html>

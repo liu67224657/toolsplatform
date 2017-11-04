@@ -1,0 +1,27 @@
+<div id="post_reply" class="blog_comment">
+    <div class="clearfix" style="padding:10px 6px 4px">
+        <span class="fl">评论</span>
+        <span class="fr" id="reply_num"></span></div>
+
+
+    <form action="" method="post" id="post_comment">
+        <div class="talk_wrapper clearfix">
+            <input type="hidden" id="hidden_unikey" value="{joyme:comment-unikey/}">
+            <input type="hidden" id="hidden_domain" value="{joyme:comment-domain/}">
+            <input type="hidden" id="hidden_uri" value="{joyme:comment-uri/}"/>
+            <input type="hidden" id="hidden_title" value="{joyme:comment-title/}"/>
+            <textarea warp="off" style="font-family:Tahoma, '宋体';" class="talk_text" id="textarea_body"
+                      name="body"></textarea>
+        </div>
+        <div class="related clearfix">
+            <div class="transmit_pic clearfix">
+                <a class="submitbtn fr" id="comment_submit" href="javascript:void(0);"><span>评 论</span></a>
+                <span style="color: #f00; padding-top: 2px; float: right;margin-top: 6px;margin-right: 4px;"
+                      id="reply_error"></span>
+            </div>
+        </div>
+    </form>
+</div>
+<a id="ap_comment" name="ap_comment"></a>
+<div id="comment_list_area">
+</div>

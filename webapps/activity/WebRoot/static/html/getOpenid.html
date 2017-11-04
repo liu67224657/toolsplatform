@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>星际火线测试页面</title>
+    <script src="http://static.joyme.com/js/jquery-1.9.1.min.js" language="javascript"></script>
+    <script>
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
+            var context = "";
+            if (r != null)
+                context = r[2];
+            reg = null;
+            r = null;
+            return context == null || context == "" || context == "undefined" ? "" : context;
+        }
+
+        $(function () {
+            var wxopenid = getcookie('wxopenid');
+            var key = getcookie('key');
+            if (key == '') {
+                var access_code = GetQueryString('code');
+                if (wxopenid == "") {
+                    if (access_code == null) {
+                        var fromurl = location.href;
+                        var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx758f0b2d30620771&redirect_uri=' + encodeURIComponent(fromurl) + '&response_type=code&scope=snsapi_base&state=STATE%23wechat_redirect&connect_redirect=1#wechat_redirect';
+                        location.href = url;
+                    } else {
+                        $.ajax({
+                            type: 'get',
+                            url: 'http://127.0.0.1:8080/activity/starline/invite.do',
+                            async: false,
+                            cache: false,
+                            data: {code: access_code},
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result != null) {
+                                    console.log(result);
+                                } else {
+                                    alert('微信身份识别失败 \n ' + result);
+                                    location.href = fromurl;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

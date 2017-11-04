@@ -1,0 +1,83 @@
+<html>
+ <head> 
+  <meta charset="utf-8" /> 
+  <title> New Document </title> 
+  <meta name="Generator" content="EditPlus" /> 
+  <meta name="Author" content="" /> 
+  <meta name="Keywords" content="" /> 
+  <meta name="Description" content="" /> 
+ <script src="http://reswiki.joyme.com/js/jquery-1.9.1.min.js" language="javascript"></script> 
+
+
+ <link rel="StyleSheet" href="dtree.css" type="text/css" />
+	<script type="text/javascript" src="dtree.js"></script>
+
+ </head> 
+ <body> 
+打开关闭节点:tree.toggle()<br />   
+打开节点:tree.expand();   <br />
+关闭节点:tree.collapse();   <br />
+打开所有节点:tree.expandAll();   <br />
+关闭所有节点:tree.collapseAll();   <br />
+打开子节点:tree.expandChildren();   <br />
+关闭子节点:tree.collapseChildren();   <br />
+显示当前节点的id:if (tree.getSelected()) { alert(tree.getSelected().id); }<br />   
+增加节点:addNode()   <br />
+增加多个节点:addNodes()   <br />
+删除节点:delNode()  <br />
+
+ <br /> <br /> <br />
+实际参数有9个add(id,pid,name,url,title,target,icon,iconOpen,open);  <br />
+位置 参数别名 类型 功能  <br />
+1 id int 节点自身的id(唯一)  <br />
+2 pid int 节点的父节点id  <br />
+3 name string 节点显示在页面上的名称  <br />
+4 url string 节点的链接地址  <br />
+5 title string 鼠标放在节点上显示的提示信息  <br />
+6 target string 节点链接所打开的目标frame  <br />
+7 icon string 节点关闭状态时显示的图标  <br />
+8 iconOpen string 节点打开状态时显示的图标  <br />
+9 open bool 节点第一次加载是否打开  <br />
+<div class="dtree">
+	
+
+<script>
+			d = new dTree('d');
+			d.add(0,-1,'My example tree'); 
+			d.add(1, 0, 'My example tree');
+			d.add(2, 0, 'My example tree');
+			d.add(3, 0, 'My example tree');
+			d.add(31, 0, 'My example tree');
+			d.add(32, 1, 'My example tree');
+			d.add(33, 2, 'My example tree');
+			d.add(34, 3, 'My example tree');
+			d.add(35, 3, 'My example tree');
+			d.add(36, 3, 'My example tree');
+			d.add(37, 3, 'My example tree');
+			d.add(38, 3, 'My example tree');
+			d.add(39, 3, 'My example tree');
+			d.add(40, 3, 'My example tree');
+			d.add(41, 3, 'My example tree');
+			d.add(42, 3, 'My example tree');
+			d.add(43, 3, 'My example tree');
+			d.add(44, 3, 'My example tree');
+			d.add(45, 4, 'My example tree');
+			d.add(46, 4, 'My example tree');
+			d.add(47, 4, 'My example tree');
+			d.add(48, 4, 'My example tree');
+			d.add(49, 4, 'My example tree');
+			d.add(50, 4, 'My example tree');
+			d.add(51, 4, 'My example tree');
+			d.add(52, 4, 'My example tree');
+			d.add(53, 4, 'My example tree');
+			d.add(54, 4, 'My example tree');
+			d.add(55, 4, 'My example tree');
+			//alert(d);
+			console.log(d)
+			document.write(d);
+ 
+ </script>
+</div>
+ </body>
+ 
+</html>

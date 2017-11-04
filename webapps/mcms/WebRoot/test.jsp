@@ -1,0 +1,1 @@
+<video id="youku-html5-player-video" width="50%" height="50%" controls="" autoplay="" preload="" src="http://v.youku.com/player/getRealM3U8/vid/XNTY1OTMxNjg4/type/mp4/v.m3u8"> </video>

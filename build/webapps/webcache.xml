@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="webcache" default="webapps.webcache.package" basedir="../.">
+
+    <!--java compile-->
+    <property name="platform.javac.debug" value="on"/>
+    <property name="platform.javac.nowarn" value="on"/>
+    <property name="platform.javac.optimize" value="off"/>
+    <property name="platform.javac.deprecation" value="off"/>
+    <property name="java.source.encoding" value="utf-8"/>
+
+    <path id="webapps.webcache.path">
+        <pathelement path="${view.webapps.root}/webcache"/>
+    </path>
+    <pathconvert dirsep="/" property="webapps.webcache.root" refid="webapps.webcache.path"/>
+
+    <property name="build.webcache.classes.output" value="${build.classes.root}/webapps/webcache"/>
+
+    <!--webcache src-->
+    <path id="webapps.webcache.path">
+        <pathelement path="${view.webapps.root}/webcache"/>
+    </path>
+    <pathconvert dirsep="/" property="webapps.webcache.root" refid="webapps.webcache.path"/>
+    <property name="webapps.webcache.src.root" value="${webapps.webcache.root}/src"/>
+    <property name="webapps.webcache.WebRoot.root" value="${webapps.webcache.root}/WebRoot"/>
+
+    <!--pageckage path-->
+    <path id="package.webcache.path">
+        <pathelement path="${package.root}/webcache"/>
+    </path>
+    <pathconvert dirsep="/" property="package.webcache.root" refid="package.webcache.path"/>
+
+    <path id="webcache.compiletime.classpath.ref">
+        <pathelement location="${build.framework.output}"/>
+        <pathelement location="${build.adminuser.output}"/>
+        <pathelement location="${build.cmsdb.output}"/>
+        <fileset dir="${view.relatedjars.root}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <property name="webcache.compiletime.classpath" refid="webcache.compiletime.classpath.ref"/>
+
+    <target name="version.webcache" description="Versioned building">
+        <antcall target="webcache.marknextversion"/>
+
+        <loadproperties srcFile="${view.build.root}/webcache.version.file" encoding="utf8"/>
+        <property name="webcache.pversion" value="yes"/>
+
+        <condition property="build.webcache.platform.version" value="${major.number}.${minor.number}.${build.number}">
+            <isset property="webcache.pversion"/>
+        </condition>
+        <property name="build.webcache.platform.version" value="0.0.0.0"/>
+
+        <antcall target="webcache.package"/>
+    </target>
+
+
+    <target name="webcache.marknextversion">
+        <buildnumber file="${view.build.root}/webcache.version.file"/>
+    </target>
+
+    <target name="webapps.webcache.compile" depends="cleate.create.output,adminuser-compile,framework-compile,cmsdb-compile"
+            description="compile the webapp classes">
+        <!-- compile the platform webapp classes -->
+        <javac
+                target="${java.jdk.version}"
+                srcdir="${webapps.webcache.src.root}"
+                destdir="${build.webcache.classes.output}"
+                nowarn="${platform.javac.nowarn}"
+                debug="${platform.javac.debug}"
+                optimize="${platform.javac.optimize}"
+                deprecation="${platform.javac.deprecation}"
+                includeAntRuntime="no"
+                includeJavaRuntime="yes"
+                encoding="${java.source.encoding}">
+
+            <classpath>
+                <pathelement path="${webcache.compiletime.classpath}"/>
+            </classpath>
+            <sourcepath>
+                <pathelement path="${webapps.webcache.src.root}"/>
+            </sourcepath>
+        </javac>
+    </target>
+
+    <target  name="webapps.webcache.package" depends="webapps.webcache.compile"
+             description="compile the webapp classes">
+        <mkdir dir="${package.webcache.root}/WEB-INF/lib"/>
+        <mkdir dir="${package.webcache.root}/WEB-INF/classes"/>
+        <copy todir="${package.webcache.root}">
+            <fileset dir="${webapps.webcache.WebRoot.root}">
+                <include name="**/**"/>
+                <exclude name="**/WEB-INF/classes/**"/>
+            </fileset>
+        </copy>
+
+        <echo message="---------${build.webcache.classes.output}------------" />
+        <echo message="---------${package.webcache.root}/WEB-INF/classes------------" />
+        <copy todir="${package.webcache.root}/WEB-INF/classes">
+            <fileset dir="${build.framework.output}">
+                <include name="**/**"/>
+            </fileset>
+            <fileset dir="${build.webcache.classes.output}">
+                <include name="**/**"/>
+            </fileset>
+            <fileset dir="${build.adminuser.output}">
+                <include name="**/**"/>
+            </fileset>
+            <fileset dir="${build.cmsdb.output}">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+        <copy todir="${package.webcache.root}/WEB-INF/lib">
+            <fileset dir="${relatedjars.root.output}">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+        <copy todir="${package.webcache.root}/WEB-INF/classes" file="${framework.root}/../log4j.properties" />
+    </target>
+
+    <target name="webcache.package" depends="webapps.webcache.package" description="Copy all jar and tar files to package dir">
+        <mkdir dir="${build.package.root}/webcache/${build.webcache.platform.version}"/>
+
+        <echo message="-----copy ${package.webcache.root} to ${build.package.root}/webcache/${build.webcache.platform.version}-----"/>
+        <copy todir="${build.package.root}/webcache/${build.webcache.platform.version}">
+            <fileset dir="${package.webcache.root}">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+
+
+        <condition property="current.version.filename" value="zeroversion">
+            <equals arg1="${build.webcache.platform.version}" arg2="0.0.0.0"></equals>
+        </condition>
+        <condition property="current.version.filename" value="prealphaIIversion">
+            <contains string="${build.webcache.platform.version}" substring="pII"></contains>
+        </condition>
+        <condition property="current.version.filename" value="prealphaversion">
+            <contains string="${build.webcache.platform.version}" substring="p"></contains>
+        </condition>
+        <condition property="current.version.filename" value="stabilityversion">
+            <contains string="${build.webcache.platform.version}" substring="b"></contains>
+        </condition>
+        <property name="current.version.filename" value="mainversion"/>
+
+        <echo file="${build.package.root}/webcache/${current.version.filename}" message="${build.webcache.platform.version}"/>
+
+        <condition property="isTar" value="true">
+            <os family="unix"/>
+        </condition>
+        <antcall target="webcache.tar"/>
+    </target>
+
+    <target name="webcache.tar" description="Creates the webcache.tar for deployment" if="${isTar}">
+        <echo message="-----generator tar-----"/>
+        <tar destfile="${build.package.root}/webcache/${build.webcache.platform.version}.tar" longfile="warn">
+            <tarfileset dir="${build.package.root}/webcache/${build.webcache.platform.version}">
+                <include name="**/*"/>
+            </tarfileset>
+        </tar>
+        <delete dir="${build.package.root}/webcache/${build.webcache.platform.version}">
+        </delete>
+    </target>
+
+</project>
+

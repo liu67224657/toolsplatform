@@ -1,0 +1,95 @@
+*{-webkit-tap-highlight-color:rgba(0,0,0,0); margin:0; padding:0;}
+li{list-style-type:none}
+a{text-decoration:none!important}
+img{border:none}
+html{font-size:62.5%; width:100%; height:100%}
+body{background:#eee; font-size:10px; font-size:1rem; text-align:justify; background:url(images/bg.png) repeat; font-family:'黑体';}
+
+
+#wrapper{width:100%; max-width:48rem; min-height:2rem; margin:0 auto;}
+
+#top-ad{margin:1rem 1rem 0}
+#top-ad img{width:100%; display:block;}
+
+
+
+.game-item{background-repeat:no-repeat; background-position:center top;}
+.game-item h2{width:28rem; height:5.2rem; line-height:5.2rem; color:#fff; font-size:2.6rem; text-align:center;}
+.game-item div.game-item-list{overflow:hidden; clear:both; padding-top:3rem}
+.game-item a{float:left; width:20%; height:15rem; padding-top:0.4rem}
+.game-item img{display:block; width:6rem; height:6rem; border:0.2rem solid #92c424; border-radius:6rem; margin:0 auto 1rem;}
+.game-item span{display:block; width:80%; max-height:3.6rem; line-height:1.8rem; text-align:center; overflow:hidden; color:#fff; background:#377706; font-size:1.4rem; margin:0 auto;}
+
+/*.game-item a:hover img, .game-item a:active img{border:0.4rem solid #00c6ff; margin-top:-0.3rem; margin-bottom:0.7rem}*/
+
+
+.game-item-left{background-image:url(images/bg-left-480.png) ; padding-top:3rem}
+.game-item-right{background-image:url(images/bg-right-480.png); padding-top:3rem}
+.game-item-right h2{float:right;}
+
+#wrapper .game-item:last-child{padding-bottom:5rem; background-image:url(images/bg-right-480-end.png)}
+
+
+#scrollMenuBox{padding:0 2rem; background:#e5e5e5}
+#scrollMenu{width:100%; overflow:hidden;}
+#scroller{width:1200px;}
+#scroller li{float:left; height:5.6rem; padding-right:2rem}
+#scroller a{display:inline-block; font-size:2rem; height:5.4rem; line-height:5.4rem; border-bottom:0.2rem solid #e5e5e5; color:#000}
+#scroller a.current{border-color:#8fc31f; color:#8fc31f}
+
+.article-title{border-left:2px solid #8fc31f; line-height:5.2rem; font-size:4.4rem; margin:4.4rem 0.4rem 3rem}
+
+.article-meta{margin:0 1rem; height:1.6rem; padding-bottom:3rem; border-bottom:1px solid #c0c0c0; font-size:1.6rem; text-align:right; overflow:hidden}
+.article-meta a{color:#8fc31f}
+.article-meta span{float:left; color:#7c7c7c}
+
+.article-content{margin:2.4rem 2rem; line-height:4rem; font-size:3rem; color:#000; padding-bottom:1rem; border-bottom:1px solid #c0c0c0}
+.article-content p{font-size:3rem;}
+.article-content img{max-width:100%; margin:2rem auto; display:block;}
+
+.article-tags{margin:0 2rem;}
+.article-tags ul{overflow:hidden}
+.article-tags li{float:left; width:33.3%; height:7rem}
+.article-tags a{display:block; width:90%; height:4.4rem; text-align:center; line-height:4.4rem; font-size:2.2rem; color:#318cd9; border:1px solid #c3c3c3; margin:0 auto; background:#fff; background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ededed));  background:-moz-linear-gradient(top, #fff, #ededed);}
+.article-tags a:hover{background:#318cd9; border-color:#318cd9; color:#fff}
+
+@media screen and (max-width:479px){
+	.game-item a{height:14rem}
+	.game-item span{font-size:1.6rem;}
+}
+
+@media screen and (max-width:360px){
+	.game-item-left{background-image:url(images/bg-left-360.png); padding-top:2.3rem}
+	.game-item-right{background-image:url(images/bg-right-360.png); padding-top:2.3rem}
+	#wrapper .game-item:last-child{background-image:url(images/bg-right-360-end.png);}
+	
+	.game-item h2{width:21rem; font-size:2.2rem}
+	.game-item div.game-item-list{padding-top:2rem; margin:0 2rem}
+	
+	.game-item img{height:5rem; width:5rem; margin:0 auto 0.4rem}
+	
+	.game-item a{height:10rem}
+	.game-item span{font-size:1.2rem; line-height:1.6rem; max-height:3.2rem}
+}
+
+@media screen and (max-width:320px){
+	.game-item h2{font-size:2rem}
+	.game-item-left{background-image:url(images/bg-left-320.png); padding-top:2.3rem}
+	.game-item-right{background-image:url(images/bg-right-320.png); padding-top:2.3rem}
+	#wrapper .game-item:last-child{background-image:url(images/bg-right-320-end.png);}
+	
+	.game-item img{width:4rem; height:4rem}
+	.game-item div.game-item-list{margin:0 1.2rem}
+	
+	.game-item a{height:9rem}
+	
+	.game-item span{font-size:1.1rem}
+	
+	.article-tags a{font-size:1.8rem; height:3.6rem; line-height:3.6rem}
+	.article-tags li{height:5rem}
+	.article-content p{font-size:2rem;}
+	.article-content{font-size:2rem; line-height:3rem}
+	
+	.article-title{font-size:3rem; line-height:4rem}
+	
+}

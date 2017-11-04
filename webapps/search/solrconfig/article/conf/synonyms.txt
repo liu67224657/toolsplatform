@@ -1,0 +1,20 @@
+#some test synonym mappings unlikely to appear in real input text
+aaafoo => aaabar
+bbbfoo => bbbfoo bbbbar
+cccfoo => cccbar cccbaz
+阿迪=>阿迪达斯 adidas
+fooaaa,baraaa,bazaaa
+# Some synonym groups specific to this example
+GB,gib,gigabyte,gigabytes
+MB,mib,megabyte,megabytes
+Television, Televisions, TV, TVs
+#notice we use "gib" instead of "GiB" so any WordDelimiterFilter coming
+#after us won't split it into two words.
+# Synonym mappings can be used for spelling correction too
+pixima => pixma
+china => chinese,中国
+耐克=>nike
+是=>四
+google=>谷歌,百度
+百度=>谷歌,google,baidu
+baidu=>谷歌,google,百度

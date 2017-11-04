@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="search" default="webapps.search.package" basedir="../.">
+
+    <!--java compile-->
+    <property name="platform.javac.debug" value="on"/>
+    <property name="platform.javac.nowarn" value="on"/>
+    <property name="platform.javac.optimize" value="off"/>
+    <property name="platform.javac.deprecation" value="off"/>
+    <property name="java.source.encoding" value="utf-8"/>
+
+    <path id="webapps.search.path">
+        <pathelement path="${view.webapps.root}/search"/>
+    </path>
+    <pathconvert dirsep="/" property="webapps.search.root" refid="webapps.search.path"/>
+
+    <property name="build.search.classes.output" value="${build.classes.root}/webapps/search"/>
+
+    <!--search src-->
+    <path id="webapps.search.path">
+        <pathelement path="${view.webapps.root}/search"/>
+    </path>
+    <pathconvert dirsep="/" property="webapps.search.root" refid="webapps.search.path"/>
+    <property name="webapps.search.src.root" value="${webapps.search.root}/src"/>
+    <property name="webapps.search.WebRoot.root" value="${webapps.search.root}/WebRoot"/>
+
+    <!--pageckage path-->
+    <path id="package.search.path">
+        <pathelement path="${package.root}/search"/>
+    </path>
+    <pathconvert dirsep="/" property="package.search.root" refid="package.search.path"/>
+
+    <path id="search.compiletime.classpath.ref">
+        <pathelement location="${build.framework.output}"/>
+        <pathelement location="${build.adminuser.output}"/>
+        <fileset dir="${view.relatedjars.root}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${webapps.search.WebRoot.root}/WEB-INF/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <property name="search.compiletime.classpath" refid="search.compiletime.classpath.ref"/>
+
+    <target name="version.search" description="Versioned building">
+        <antcall target="search.marknextversion"/>
+
+        <loadproperties srcFile="${view.build.root}/search.version.file" encoding="utf8"/>
+        <property name="search.pversion" value="yes"/>
+
+        <condition property="build.search.platform.version" value="${major.number}.${minor.number}.${build.number}">
+            <isset property="search.pversion"/>
+        </condition>
+        <property name="build.search.platform.version" value="0.0.0.0"/>
+
+        <antcall target="search.package"/>
+    </target>
+
+
+    <target name="search.marknextversion">
+        <buildnumber file="${view.build.root}/search.version.file"/>
+    </target>
+
+    <target name="webapps.search.compile" depends="cleate.create.output,adminuser-compile,framework-compile"
+            description="compile the webapp classes">
+        <!-- compile the platform webapp classes -->
+        <javac
+                target="${java.jdk.version}"
+                srcdir="${webapps.search.src.root}"
+                destdir="${build.search.classes.output}"
+                nowarn="${platform.javac.nowarn}"
+                debug="${platform.javac.debug}"
+                optimize="${platform.javac.optimize}"
+                deprecation="${platform.javac.deprecation}"
+                includeAntRuntime="no"
+                includeJavaRuntime="yes"
+                encoding="${java.source.encoding}">
+
+            <classpath>
+                <pathelement path="${search.compiletime.classpath}"/>
+            </classpath>
+            <sourcepath>
+                <pathelement path="${webapps.search.src.root}"/>
+            </sourcepath>
+        </javac>
+    </target>
+
+    <target name="webapps.search.package" depends="webapps.search.compile"
+            description="compile the webapp classes">
+        <mkdir dir="${package.search.root}/WEB-INF/lib"/>
+        <mkdir dir="${package.search.root}/WEB-INF/classes"/>
+        <copy todir="${package.search.root}">
+            <fileset dir="${webapps.search.WebRoot.root}">
+                <include name="**/**"/>
+                <exclude name="**/WEB-INF/classes/**"/>
+            </fileset>
+        </copy>
+
+        <echo message="---------${build.search.classes.output}------------"/>
+        <echo message="---------${package.search.root}/WEB-INF/classes------------"/>
+        <copy todir="${package.search.root}/WEB-INF/classes">
+            <fileset dir="${build.framework.output}">
+                <include name="**/**"/>
+            </fileset>
+            <fileset dir="${build.search.classes.output}">
+                <include name="**/**"/>
+            </fileset>
+            <fileset dir="${build.adminuser.output}">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+        <copy todir="${package.search.root}/WEB-INF/lib">
+            <fileset dir="${relatedjars.root.output}">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${relatedjars.root.output}" flatten="true">
+            <fileset dir="${view.relatedjars.root}" includes="**/*.jar">
+                <exclude name="compile-time-jars/**/*.jar"/>
+                <exclude name="solr/*.jar"/>
+                <exclude name="lucene/*.jar"/>
+            </fileset>
+        </copy>
+        <copy todir="${package.search.root}/WEB-INF/lib">
+            <fileset dir="${view.relatedjars.root}/solr/">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+        <copy todir="${package.search.root}/WEB-INF/lib">
+            <fileset dir="${view.relatedjars.root}/lucene/">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+        <copy todir="${package.search.root}/WEB-INF/classes" file="${framework.root}/../log4j.properties"/>
+    </target>
+
+    <target name="search.package" depends="webapps.search.package"
+            description="Copy all jar and tar files to package dir">
+        <mkdir dir="${build.package.root}/search/${build.search.platform.version}"/>
+
+        <echo message="-----copy ${package.search.root} to ${build.package.root}/search/${build.search.platform.version}-----"/>
+        <copy todir="${build.package.root}/search/${build.search.platform.version}">
+            <fileset dir="${package.search.root}">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+
+
+        <condition property="current.version.filename" value="zeroversion">
+            <equals arg1="${build.search.platform.version}" arg2="0.0.0.0"></equals>
+        </condition>
+        <condition property="current.version.filename" value="prealphaIIversion">
+            <contains string="${build.search.platform.version}" substring="pII"></contains>
+        </condition>
+        <condition property="current.version.filename" value="prealphaversion">
+            <contains string="${build.search.platform.version}" substring="p"></contains>
+        </condition>
+        <condition property="current.version.filename" value="stabilityversion">
+            <contains string="${build.search.platform.version}" substring="b"></contains>
+        </condition>
+        <property name="current.version.filename" value="mainversion"/>
+
+        <echo file="${build.package.root}/search/${current.version.filename}"
+              message="${build.search.platform.version}"/>
+
+        <condition property="isTar" value="true">
+            <os family="unix"/>
+        </condition>
+        <antcall target="search.tar"/>
+    </target>
+
+    <target name="search.tar" description="Creates the search.tar for deployment" if="${isTar}">
+        <echo message="-----generator tar-----"/>
+        <tar destfile="${build.package.root}/search/${build.search.platform.version}.tar" longfile="warn">
+            <tarfileset dir="${build.package.root}/search/${build.search.platform.version}">
+                <include name="**/*"/>
+            </tarfileset>
+        </tar>
+        <delete dir="${build.package.root}/search/${build.search.platform.version}">
+        </delete>
+    </target>
+
+</project>
+

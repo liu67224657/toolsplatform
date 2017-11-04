@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <servlet>
+        <description>This is the description of my J2EE component</description>
+        <display-name>This is the display name of my J2EE component</display-name>
+        <servlet-name>InitServlet</servlet-name>
+        <servlet-class>com.enjoyf.wiki.servlet.InitServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/wikiMVC-servlet.xml</param-value>
+    </context-param>
+
+    <servlet-mapping>
+        <servlet-name>InitServlet</servlet-name>
+        <url-pattern>/servlet/InitServlet</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>index.shtml</welcome-file>
+    </welcome-file-list>
+
+
+    <filter>
+        <filter-name>gzipfilter</filter-name>
+        <filter-class>com.enjoyf.wiki.filter.GzipFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>gzipfilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>com.enjoyf.wiki.filter.CharacterEncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>urlfilter</filter-name>
+        <filter-class>com.enjoyf.wiki.filter.URLFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>urlfilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>sessioncheck</filter-name>
+        <filter-class>com.enjoyf.wiki.filter.SessionCheckFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>sessioncheck</filter-name>
+        <url-pattern>/wiki/ac/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>wikiMVC</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wikiMVC</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/500.jsp</location>
+    </error-page>
+</web-app>

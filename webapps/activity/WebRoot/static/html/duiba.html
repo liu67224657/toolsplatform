@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>测试网页获取openid</title>
+    <script src="http://static.joyme.com/js/jquery-1.9.1.min.js" language="javascript"></script>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/0.4.3/weui.min.css"/>
+    <script>
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
+            var context = "";
+            if (r != null)
+                context = r[2];
+            reg = null;
+            r = null;
+            return context == null || context == "" || context == "undefined" ? "" : context;
+        }
+
+        $(function () {
+            var access_code = GetQueryString('code');
+            var src_openid = GetQueryString('srcopenid');
+            if (access_code == null || access_code.length <= 0) {
+                var fromurl = location.href;
+                var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc0a35f45e2752bf3&redirect_uri=' + encodeURIComponent(fromurl) + '&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect&connect_redirect=1#wechat_redirect';
+                location.href = url;
+            } else {
+                $.ajax({
+                    type: 'get',
+                    url: 'http://joymetest.tunnel.qydev.com/activity/json/api/wxinfo.do',
+                    data: {code: access_code, appid: 'wxc0a35f45e2752bf3', secret: '6f1741398509c41ba46ca40fe91aac91',saveuser:"true",activitycode:'duiba2017011'},
+                    dataType: 'jsonp',
+                    jsonpCallback: 'wxinfo',
+                    success: function (result) {
+                        var resMsg = result[0];
+                        console.log(resMsg);
+                        if (resMsg != null && resMsg.rs == "1") {
+                            var _result = eval("(" + resMsg.result + ")");
+                            console.log(_result);
+                            var openid = _result.openid;
+                            console.log(openid);
+                            var url = "http://joymetest.tunnel.qydev.com/duiba/api/activity/page.do?dbredirect=https%3A%2F%2Factivity.m.duiba.com.cn%2Fnewtools%2Findex%3Fid%3D1800110%26dblanding%3Dhttps%253A%252F%252Fwww.duiba.com.cn%252FhdtoolNew%252FgetActivityShareInfo%253FoperatingActivityId%253D1800110&openid=" + openid;
+
+                            $("#openid").html(openid);
+                            console.log(url)
+                            $("#url").html(url)
+
+                            $("#_href").attr("href", url);
+                        } else {
+                            alert('微信身份识别失败 \n ' + result);
+                            location.href = fromurl;
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="weui_cells">
+    <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+            openid
+        </div>
+        <div class="weui_cell_ft">
+            <span href="#" id="openid"></span>
+        </div>
+    </div>
+    <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+            要跳转的链接
+        </div>
+        <div class="weui_cell_ft">
+            <span href="#" id="url"></span>
+        </div>
+    </div>
+</div>
+
+<a href="" id="_href">点击跳转</a>
+</body>
+</html>

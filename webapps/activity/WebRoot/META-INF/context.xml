@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<Context reloadable="true" crossContext="true" > 
+       <Resource auth="Container" 
+        factory="org.logicalcobwebs.proxool.ProxoolDataSource"
+        name="jdbc/joymeUpdateDS" 
+        proxool.alias="write" 
+        user="root"
+        password="654321"
+        proxool.driver-url="jdbc:mysql://db001.dev:3306/activity"
+        proxool.driver-class="com.mysql.jdbc.Driver"
+        proxool.maximum-connection-count="1200"
+        proxool.maximum-active-time="400000"
+        proxool.house-keeping-sleep-time="180000"
+        proxool.maximum-connection-lifetime="400000"
+        proxool.house-keeping-test-sql="select CURRENT_DATE"
+        proxool.prototype-count="5"
+        proxool.simultaneous-build-throttle="15"
+        proxool.statistics="10s,1m,1d"
+        type="javax.sql.DataSource" />
+        
+        
+        <Resource auth="Container"
+        factory="org.logicalcobwebs.proxool.ProxoolDataSource"
+        name="jdbc/joymeReadDS_main"
+        proxool.alias="read1"
+        user="root"
+        password="654321"
+        proxool.driver-url="jdbc:mysql://db001.dev:3306/activity"
+        proxool.driver-class="com.mysql.jdbc.Driver"
+        proxool.maximum-connection-count="1200"
+        proxool.maximum-active-time="400000"
+        proxool.house-keeping-sleep-time="180000"
+        proxool.maximum-connection-lifetime="400000"
+        proxool.house-keeping-test-sql="select CURRENT_DATE"
+        proxool.prototype-count="5"
+        proxool.simultaneous-build-throttle="15"
+        proxool.statistics="10s,1m,1d"
+        type="javax.sql.DataSource" />
+        
+	<Manager className="org.apache.catalina.session.PersistentManager" saveOnRestart="false">
+       <Store className="org.apache.catalina.session.FileStore"/>
+	</Manager>
+</Context>

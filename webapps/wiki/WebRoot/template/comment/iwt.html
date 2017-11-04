@@ -1,0 +1,16 @@
+<script>
+    (function (G,D,s,c,p) {
+        c={//监测配置
+            UA:"UA-joyme-000001", //客户项目编号,由系统生成
+            NO_FLS:0,
+            WITH_REF:1,
+            URL:'http://webcache.joyme.com/js/iwt-min.js'
+        };
+        G._iwt?G._iwt.track(c,p):(G._iwtTQ=G._iwtTQ || []).push([c,p]),!G._iwtLoading && lo();
+        function lo(t) {
+            G._iwtLoading=1;s=D.createElement("script");s.src=c.URL;
+            t=D.getElementsByTagName("script");t=t[t.length-1];
+            t.parentNode.insertBefore(s,t);
+        }
+    })(this,document);
+</script>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>测试网页获取openid</title>
+    <script src="http://static.joyme.com/js/jquery-1.9.1.min.js" language="javascript"></script>
+    <script>
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);  //获取url中"?"符后的字符串并正则匹配
+            var context = "";
+            if (r != null)
+                context = r[2];
+            reg = null;
+            r = null;
+            return context == null || context == "" || context == "undefined" ? "" : context;
+        }
+
+        $(function () {
+            var access_code = GetQueryString('code');
+            var src_openid = GetQueryString('srcopenid');
+            if (access_code == null || access_code.length<=0) {
+                var fromurl = location.href;
+                var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc0a35f45e2752bf3&redirect_uri=' + encodeURIComponent(fromurl) + '&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect&connect_redirect=1#wechat_redirect';
+                location.href = url;
+            } else {
+                $.ajax({
+                    type: 'get',
+                    url: 'http://joymetest.tunnel.qydev.com/activity/starline/invite/create.do',
+                    async: false,
+                    cache: false,
+                    data: {code: access_code,srcopenid:src_openid},
+                    dataType: 'jsonp',
+                    success: function (result) {
+                        if (result != null) {
+                            var str = JSON.stringify(result);
+                            $('#result').html(result[0].rs);
+                            } else {
+                            alert('微信身份识别失败 \n ' + result);
+                            location.href = fromurl;
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+<div id="result">ddd</div>
+
+</body>
+</html>

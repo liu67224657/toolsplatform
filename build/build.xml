@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build" default="all" basedir="../.">
+
+    <!--java compile-->
+    <property name="platform.javac.debug" value="on"/>
+    <property name="platform.javac.nowarn" value="on"/>
+    <property name="platform.javac.optimize" value="off"/>
+    <property name="platform.javac.deprecation" value="off"/>
+    <property name="java.source.encoding" value="utf-8"/>
+    <property name="java.jdk.version" value="1.7"/>
+
+    <path id="basedir.webapps.path">
+        <pathelement path="${basedir}/webapps"/>
+    </path>
+    <pathconvert dirsep="/" property="view.webapps.root" refid="basedir.webapps.path"/>
+
+    <path id="framework.path">
+        <pathelement path="${basedir}/framework/src"/>
+    </path>
+    <pathconvert dirsep="/" property="framework.root" refid="framework.path"/>
+
+    <path id="adminuser.path">
+        <pathelement path="${basedir}/adminuser/src"/>
+    </path>
+    <pathconvert dirsep="/" property="adminuser.root" refid="adminuser.path"/>
+
+    <path id="cmsdb.path">
+        <pathelement path="${basedir}/cmsdb/src"/>
+    </path>
+    <pathconvert dirsep="/" property="cmsdb.root" refid="cmsdb.path"/>
+
+
+
+    <path id="basedir.build.path">
+        <pathelement path="${basedir}/build"/>
+    </path>
+    <pathconvert dirsep="/" property="view.build.root" refid="basedir.build.path"/>
+
+    <property name="output.root" value="${view.build.root}/work"/>
+
+    <!--framework-->
+    <path id="build.classes">
+        <pathelement path="${output.root}/classes"/>
+    </path>
+    <pathconvert dirsep="/" property="build.classes.root" refid="build.classes"/>
+
+    <!--lib-->
+    <path id="basedir.relatedjars.path">
+        <pathelement path="${basedir}/relatedjars"/>
+    </path>
+    <pathconvert dirsep="/" property="view.relatedjars.root" refid="basedir.relatedjars.path"/>
+
+    <!--framework-->
+    <path id="build.framework.output.path">
+        <pathelement path="${output.root}/classes/framework"/>
+    </path>
+    <pathconvert dirsep="/" property="build.framework.output" refid="build.framework.output.path"/>
+
+    <!--cmsdb-->
+    <property name="build.cmsdb.output" value="${build.classes.root}/cmsdb"/>
+
+    <!--adminuser-->
+    <property name="build.adminuser.output" value="${build.classes.root}/adminuser"/>
+
+
+    <!--pageckage path-->
+     <path id="package.path">
+        <pathelement path="${output.root}/package"/>
+    </path>
+    <pathconvert dirsep="/" property="package.root" refid="package.path"/>
+    <path id="package.wiki.path">
+        <pathelement path="${package.root}/wiki"/>
+    </path>
+    <pathconvert dirsep="/" property="package.wiki.root" refid="package.wiki.path"/>
+
+    <property name="output.stage.root" value="${output.root}/stage"/>
+    <condition property="build.package.root" value="c:/ops/online/package">
+        <os family="windows"/>
+    </condition>
+    <condition property="build.package.root" value="/opt/package/toolsplatform">
+        <os family="unix"/>
+    </condition>
+
+    <!--lib-->
+    <property name="relatedjars.root.output" value="${output.root}/relatedjars"/>
+    <target name="platform.relatedjars"  description="flatten the platform's related jars">
+        <mkdir dir="${relatedjars.root.output}"/>
+        <copy todir="${relatedjars.root.output}" flatten="true">
+            <fileset dir="${view.relatedjars.root}" includes="**/*.jar">
+                <exclude name="compile-time-jars/**/*.jar"/>
+                <exclude name="solr/*.jar"/>
+                <exclude name="lucene/*.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- compile-time classpath -->
+    <path id="compiletime.classpath.ref">
+        <fileset dir="${view.relatedjars.root}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <property name="framework.compiletime.classpath" refid="compiletime.classpath.ref"/>
+
+    <!--adminuser-->
+    <path id="adminuser.compiletime.classpath.ref">
+        <pathelement location="${build.framework.output}"/>
+        <pathelement location="${adminuser.root}"/>
+        <fileset dir="${view.relatedjars.root}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <property name="adminuser.compiletime.classpath" refid="adminuser.compiletime.classpath.ref"/>
+
+    <!--cmsdb-->
+    <path id="cmsdb.compiletime.classpath.ref">
+        <pathelement location="${build.framework.output}"/>
+        <pathelement location="${cmsdb.root}"/>
+        <fileset dir="${view.relatedjars.root}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <property name="cmsdb.compiletime.classpath" refid="cmsdb.compiletime.classpath.ref"/>
+
+
+    <import file="${view.build.root}/webapps/wiki.xml" optional="false"/>
+    <import file="${view.build.root}/webapps/marticle.xml" optional="false"/>
+    <import file="${view.build.root}/webapps/cmsimage.xml" optional="false"/>
+    <import file="${view.build.root}/webapps/search.xml" optional="false"/>
+    <import file="${view.build.root}/webapps/webcache.xml" optional="false"/>
+    <import file="${view.build.root}/webapps/activity.xml" optional="false"/>
+
+    <!--webapps.marticle.package,webapps.cmsimage.package,-->
+    <target name="all" depends="webapps.wiki.package, webapps.search.package,webapps.webcache.package,webapps.activity.package,webapps.marticle.package,webapps.cmsimage.package" description="build all"/>
+
+    <target name="cleate.create.output" depends="">
+        <!-- create the classes directory: -->
+        <mkdir dir="${build.wiki.classes.output}"/>
+        <mkdir dir="${build.marticle.classes.output}"/>
+        <mkdir dir="${build.webcache.classes.output}"/>
+        <mkdir dir="${build.activity.classes.output}"/>
+        <mkdir dir="${build.cmsimage.classes.output}"/>
+        <mkdir dir="${build.search.classes.output}"/>
+        <mkdir dir="${build.cmsdb.output}"/>
+        <mkdir dir="${build.framework.output}"/>
+        <mkdir dir="${build.adminuser.output}"/>
+        <!-- create the version stamp -->
+    </target>
+
+
+
+    <target name="adminuser-compile" depends="cleate.create.output,framework-compile"
+            description="compile the webapp classes">
+        <javac
+                target="${java.jdk.version}"
+                srcdir="${adminuser.root}"
+                destdir="${build.adminuser.output}"
+                nowarn="${platform.javac.nowarn}"
+                debug="${platform.javac.debug}"
+                optimize="${platform.javac.optimize}"
+                deprecation="${platform.javac.deprecation}"
+                excludes="test/**,build/**"
+                includeAntRuntime="no"
+                includeJavaRuntime="no"
+                encoding="${java.source.encoding}">
+            <classpath>
+                <pathelement path="${build.framework.output}"/>
+            </classpath>
+            <sourcepath>
+                <pathelement path="${adminuser.root}"/>
+            </sourcepath>
+        </javac>
+    </target>
+
+    <target name="framework-compile" depends="cleate.create.output,platform.relatedjars"
+            description="compile the webapp classes">
+        <javac
+                target="${java.jdk.version}"
+                srcdir="${framework.root}"
+                destdir="${build.framework.output}"
+                nowarn="${platform.javac.nowarn}"
+                debug="${platform.javac.debug}"
+                optimize="${platform.javac.optimize}"
+                deprecation="${platform.javac.deprecation}"
+                excludes="test/**,build/**"
+                includeAntRuntime="no"
+                includeJavaRuntime="no"
+                encoding="${java.source.encoding}">
+
+            <classpath>
+                <pathelement path="${framework.compiletime.classpath}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="cmsdb-compile" depends="cleate.create.output,framework-compile"
+            description="compile the webapp classes">
+        <javac
+                target="${java.jdk.version}"
+                srcdir="${cmsdb.root}"
+                destdir="${build.cmsdb.output}"
+                nowarn="${platform.javac.nowarn}"
+                debug="${platform.javac.debug}"
+                optimize="${platform.javac.optimize}"
+                deprecation="${platform.javac.deprecation}"
+                excludes="test/**,build/**"
+                includeAntRuntime="no"
+                includeJavaRuntime="no"
+                encoding="${java.source.encoding}">
+            <classpath>
+                <pathelement path="${cmsdb.compiletime.classpath}"/>
+            </classpath>
+            <sourcepath>
+                <pathelement path="${cmsdb.root}"/>
+            </sourcepath>
+        </javac>
+    </target>
+
+
+    <target name="version" description="Versioned building">
+        <antcall target="version.search"/>
+        <antcall target="version.wiki"/>
+        <antcall target="version.marticle"/>
+        <antcall target="version.cmsimage"/>
+        <antcall target="version.webcache"/>
+        <antcall target="version.activity"/>
+    </target>
+
+    <target name="clean" description="clean all">
+        <delete dir="${output.root}"/>
+    </target>
+</project>

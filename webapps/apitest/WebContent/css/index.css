@@ -1,0 +1,42 @@
+#header, #container {
+    margin: 0 auto;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+#header {
+    border: 2px solid #29519c;
+    height: 23px;
+    position: relative;
+    z-index: 5555;
+    color: red;
+}
+.clear-both {
+    clear: both;
+}
+#menu {
+    width: 40%;
+    border: 2px solid #29519c;
+    float: left;
+    height: 700px;
+}
+#container {
+    margin-top: 15px;
+}
+#content {
+    float: left;
+    margin-left: 15px;
+    width: 58%;
+}
+#menu .tablecls{
+    border:0;
+    cellpadding:3;
+    cellspacing:1;
+    align:center;
+}
+#menu .tablecls tr{
+    text-align: center; COLOR: #0076C8; BACKGROUND-COLOR: #F4FAFF;
+}

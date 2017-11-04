@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link href="http://lib.joyme.com/static/theme/default/css/core.css" rel="stylesheet" type="text/css" />
+<link href="http://marticle.joyme.com/marticle/css/joymemobile.css" rel="stylesheet" type="text/css" />
+<title>{joyme:spec-name/}-360</title>
+</head>
+<body style="background:#f3f3f3">
+	<div class="game-app-intro">
+		
+		<div class="game-app-intro-box">
+			<img src="{joyme:spec-img-url/}"/>
+			{joyme:check-download}<a href="{joyme:spec-download-url/}" class="download"></a>{/joyme:check-download}
+			<div>
+				<span style="width:100%">游戏名称:{joyme:spec-name/}</span>
+			</div>
+			<div>
+				<span>类型:{joyme:spec-type/}</span>
+				<span>语言:{joyme:spec-language/}</span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="pushbar">
+		<ul>
+			<li>{joyme:spec-advertise/}</li>
+		</ul>
+	</div>
+	
+	<div class="pusharticle">
+		{joyme:game-loop}
+			{joyme:game-point}
+			<h2><span>{joyme:point-name /}</span>{joyme:point-more /}</h2>
+			<ul>
+				{joyme:article-loop}
+					<li>{joyme:artcile-info /}</li>
+				{/joyme:article-loop}
+			</ul>
+			{/joyme:game-point}
+		{/joyme:game-loop}
+	</div>
+	<div class="copyright">本专题由着迷网提供，最全手游攻略，就在着迷网 <br>
+			www.joyme.com </div>
+</body>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F92eeb6ec4fbf62ae81ae476badb608a9' type='text/javascript'%3E%3C/script%3E"));
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F0a10eee10a39c33d4a8a61d3ad35a96f' type='text/javascript'%3E%3C/script%3E"));
+</script> 
+</html>

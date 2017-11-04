@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<Context reloadable="true" crossContext="true" > 
+       <Resource auth="Container" 
+        factory="org.logicalcobwebs.proxool.ProxoolDataSource"
+        name="jdbc/joymeReadDS_main" 
+        proxool.alias="sdk_forum_read" 
+        user="wikipage"
+        password="wikipage"
+        proxool.driver-url="jdbc:mysql://172.16.75.65:3306/wikiurl"
+        proxool.driver-class="com.mysql.jdbc.Driver"
+        proxool.maximum-connection-count="1200"
+        proxool.maximum-active-time="400000"
+        proxool.house-keeping-sleep-time="180000"
+        proxool.maximum-connection-lifetime="400000"
+        proxool.house-keeping-test-sql="select CURRENT_DATE"
+        proxool.prototype-count="20"
+        proxool.simultaneous-build-throttle="20"
+        proxool.statistics="10s,1m,1d"
+        type="javax.sql.DataSource" />
+        
+         <Resource auth="Container" 
+        factory="org.logicalcobwebs.proxool.ProxoolDataSource"
+        name="jdbc/joymeUpdateDS" 
+        proxool.alias="sdk_forum_update" 
+       	user="wikipage"
+        password="wikipage"
+        proxool.driver-url="jdbc:mysql://172.16.75.65:3306/wikiurl"
+        proxool.driver-class="com.mysql.jdbc.Driver"
+        proxool.maximum-connection-count="1200"
+        proxool.maximum-active-time="180000"
+        proxool.house-keeping-sleep-time="180000"
+        proxool.maximum-connection-lifetime="180000"
+        proxool.house-keeping-test-sql="select CURRENT_DATE"
+        proxool.prototype-count="20"
+        proxool.simultaneous-build-throttle="20"
+        proxool.statistics="10s,1m,1d"
+        type="javax.sql.DataSource" />
+        
+	<Manager className="org.apache.catalina.session.PersistentManager" saveOnRestart="false">
+       <Store className="org.apache.catalina.session.FileStore"/>
+	</Manager>
+</Context>

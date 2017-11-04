@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd" default-lazy-init="true">
+
+    <bean  class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
+        <property name="messageConverters">
+            <list>
+                <bean class = "org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name = "supportedMediaTypes">
+                        <list>
+                            <value>text/plain;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--
+    <mvc:annotation-driven/>
+    -->
+
+    <context:annotation-config />
+
+    <!-- 自动扫描bean，把作了注解的类转换为bean -->
+    <context:component-scan base-package="com.joyme.controller"/>
+
+    <beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    <!-- jsp视图解析器  jstl的支持-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!---文件上传-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="defaultEncoding" value="UTF-8"/>
+        <beans:property name="maxUploadSize" value="104857600"/>
+        <beans:property name="maxInMemorySize" value="4096"/>
+    </bean>
+
+
+    <mvc:resources mapping="/js/**" location="/js/" cache-period="31556926"/>
+    <mvc:resources mapping="/images/**" location="/image/" cache-period="31556926"/>
+    <mvc:resources mapping="/css/**" location="/css/" cache-period="31556926"/>
+    <mvc:resources mapping="/favicon.ico" location="/"/>
+    <!--
+    <beans:import resource="google-kaptcha.xml"/>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/home/**"/>
+            <beans:bean id="commonInterceptor" class="com.sp3.common.filter.CommonInterceptor"></beans:bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+     -->
+
+
+    <!--
+    <beans:bean id="i18nSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <beans:property name="basenames">
+            <beans:list>
+                <beans:value>/zh</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+    -->
+
+</beans>
+

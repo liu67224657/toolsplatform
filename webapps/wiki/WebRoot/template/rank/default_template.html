@@ -1,0 +1,21 @@
+<div class="wiki-list-item fn-clear">
+    <div class="wiki-list list-bg">
+        <span>最新文章</span>
+        <ul>
+            {joyme:news-loop}
+            <li><span><a href="{joyme:news-url/}">{joyme:news-text/}</a><cite>{joyme:news-date/}</cite></span></li>
+            {/joyme:news-loop}
+        </ul>
+    </div>
+    <div class="wiki-list">
+        <span>最热文章</span>
+        <ul>
+            {joyme:hot-loop}
+            <li><span><a href="{joyme:hot-url/}">{joyme:hot-text/}</a><cite>{joyme:hot-date/}</cite></span></li>
+            {/joyme:hot-loop}
+        </ul>
+    </div>
+</div>
+
+
+

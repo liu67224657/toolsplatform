@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<link rel="icon" href="http://lib.joyme.com/static/img/favicon.ico" type="image/x-icon"/>
+<script type="text/javascript" src="http://html.joyme.com/js/touchScroll.js"></script>
+<link href="http://marticle.joyme.com/css/style.css" type="text/css" rel="stylesheet" />
+<title>{joyme:article-title/}-着迷网</title>
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function(){
+		var div = document.getElementById('scroller');
+		var li = div.getElementsByTagName('li');
+		var length = 0;
+		for (var i=0, l=li.length; i<l; i++) {
+			length += parseInt(li[i].offsetWidth);
+		}
+		div.style.width = length + 'px';
+	}, false);
+</script>
+</head>
+<body>
+<div id="wrapper">
+	<!-- 头图广告 -->
+	<div id="top-ad" style="margin:0"><a href="#"><img src="http://html.joyme.com/images/ad.jpg" /></a></div>
+	
+	<!-- 滚动菜单 -->
+	<div id="scrollMenuBox">
+		<div id="scrollMenu">
+			<div id="scroller">
+				<ul>
+					<li><a href="http://www.joyme.com/news/years/fps/2013123023076.html" class="current">猎鹿人2014</a></li>
+					<li><a href="http://www.joyme.com/news/years/parkour/2014010323625.html">天天酷跑</a></li>
+					<li><a href="http://www.joyme.com/news/years/card/2014010323578.html">啪啪三国</a></li>
+					<li><a href="http://www.joyme.com/news/years/td/2014010323727.html">保卫萝卜2</a></li>
+					<li><a href="http://www.joyme.com/news/years/puzzle/2014/0102/23341.html">割绳子2</a></li>
+					<li><a href="http://www.joyme.com/news/years/rpg/2014010323756.html">海之号角</a></li>
+					<li><a href="http://www.joyme.com/news/years/act/2014010323614.html">永恒战士3</a></li>
+					<li><a href="http://www.joyme.com/news/years/sim/2014010223400.html">漂流者天堂</a></li>
+					<li><a href="http://www.joyme.com/news/years/sports/2014010323742.html">天天飞车</a></li>
+					<li><a href="http://www.joyme.com/news/years/japan/2014010724121.html">公主蓬特2</a></li>
+					<li><a href="http://www.joyme.com/news/years/music/2014010623903.html">古树旋律</a></li>
+					<li><a href="http://www.joyme.com/news/years/ftg/2013123123188.html">龙勇士</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 文章标题 -->
+	<div class="article-title">{joyme:article-title/}</div>
+	
+	<!-- 文章信息 -->
+	<div class="article-meta">
+		<span>{joyme:article-publishuser/}&nbsp;&nbsp;{joyme:article-publishtime/}</span>
+	</div>
+	
+	<!-- 文章内容 -->
+	<div class="article-content">
+		{joyme:article-body/}
+	</div>
+	
+	<!-- 标签 -->
+	<div class="article-tags">
+		<ul>
+			<li><a href="http://www.joyme.com/news/years/fps/2014010323745.html">射击</a></li>
+			<li><a href="http://www.joyme.com/news/years/parkour/2014010323738.html">跑酷</a></li>
+			<li><a href="http://www.joyme.com/news/years/card/2014010323697.html">卡牌</a></li>
+			<li><a href="http://www.joyme.com/news/years/td/2014010323768.html">塔防</a></li>
+			<li><a href="http://www.joyme.com/news/years/puzzle/2014/0102/23452.html">休闲益智</a></li>
+			<li><a href="http://www.joyme.com/news/years/rpg/2014010323771.html">角色扮演</a></li>
+			<li><a href="http://www.joyme.com/news/years/act/2014010323614.html">动作</a></li>
+			<li><a href="http://www.joyme.com/news/years/sim/2014010223436.html">模拟经营</a></li>
+			<li><a href="http://www.joyme.com/news/years/sports/2014010423891.html">体育竞速</a></li>
+			<li><a href="http://www.joyme.com/news/years/japan/2014010724166.html">日系</a></li>
+			<li><a href="http://www.joyme.com/news/years/music/2014010623903.html">音乐</a></li>
+			<li><a href="http://www.joyme.com/news/years/ftg/2014012726269.html">格斗</a></li>
+		</ul>
+	</div>
+	
+</div>
+<script type="text/javascript">new TouchScroll({id:'scrollMenu','width':0,'opacity':0,color:'#555',minLength:0});</script>
+<script src="http://html.joyme.com/js/marticleGoogleAnalytics.js" language="javascript"></script>
+<script>
+	(function (G,D,s,c,p) {
+		c={//监测配置
+			UA:"UA-joyme-000001", //客户项目编号,由系统生成
+			NO_FLS:0,
+			WITH_REF:1,
+			URL:'http://webcache.joyme.com/js/iwt-min.js'
+		};
+		G._iwt?G._iwt.track(c,p):(G._iwtTQ=G._iwtTQ || []).push([c,p]),!G._iwtLoading && lo();
+		function lo(t) {
+			G._iwtLoading=1;s=D.createElement("script");s.src=c.URL;
+			t=D.getElementsByTagName("script");t=t[t.length-1];
+			t.parentNode.insertBefore(s,t);
+		}
+	})(this,document);
+</script>
+</body>
+</html>
